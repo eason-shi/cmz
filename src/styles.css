@@ -1,5 +1,15 @@
-
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Playfair Display", Georgia, serif;
+  --color-warm-amber: #c9a96e;
+  --color-warm-amber-dim: #8b7340;
+  --color-dark-canvas: #0a0a0a;
+  --color-dark-surface: #141414;
+  --color-grain: rgba(200, 190, 170, 0.035);
+}
+
+/* ── Base Reset ── */
 
 * {
   box-sizing: border-box;
@@ -9,9 +19,143 @@ html,
 body,
 #app {
   min-height: 100%;
-}
-
-body {
   margin: 0;
+  padding: 0;
+  background: var(--color-dark-canvas);
+  overflow: hidden;
 }
 
+/* ── Ken Burns Keyframes ── */
+
+@keyframes kenBurnsRight {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(1.5%, -0.5%); }
+}
+
+@keyframes kenBurnsLeft {
+  0% { transform: scale(1.08) translate(1.5%, -0.5%); }
+  100% { transform: scale(1) translate(-0.5%, 0.5%); }
+}
+
+@keyframes kenBurnsUp {
+  0% { transform: scale(1) translate(0, 0.5%); }
+  100% { transform: scale(1.06) translate(-1%, -1%); }
+}
+
+@keyframes kenBurnsDown {
+  0% { transform: scale(1.06) translate(-1%, -1%); }
+  100% { transform: scale(1) translate(0.5%, 0.5%); }
+}
+
+.ken-burns-right { animation: kenBurnsRight 10s ease-in-out forwards; }
+.ken-burns-left  { animation: kenBurnsLeft 10s ease-in-out forwards; }
+.ken-burns-up    { animation: kenBurnsUp 10s ease-in-out forwards; }
+.ken-burns-down  { animation: kenBurnsDown 10s ease-in-out forwards; }
+
+/* ── Vignette ── */
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* ── Progress Bar ── */
+
+.progress-track {
+  position: relative;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-warm-amber-dim), var(--color-warm-amber));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* ── Photo Dot ── */
+
+.photo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.photo-dot:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.3);
+}
+
+.photo-dot.active {
+  background: var(--color-warm-amber);
+  transform: scale(1.6);
+  box-shadow: 0 0 8px rgba(201, 169, 110, 0.4);
+}
+
+/* ── Nav Button ── */
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.08);
+}
+
+/* ── Play/Pause Button ── */
+
+.play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  color: var(--color-warm-amber);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+  background: rgba(201, 169, 110, 0.12);
+  border-color: rgba(201, 169, 110, 0.2);
+  transform: scale(1.08);
+}
+
+/* ── Custom selection ── */
+
+::selection {
+  background: var(--color-warm-amber);
+  color: var(--color-dark-canvas);
+}
